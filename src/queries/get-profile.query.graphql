@@ -1,0 +1,12 @@
+query GetProfile {
+    users {
+        avatar
+        createdAt
+        email
+        fullName
+        id
+        type
+        updatedAt
+    }
+}
+

@@ -1,6 +1,6 @@
 overwrite: true
 schema: "https://syn-api-prod.herokuapp.com/graphql"
-documents: "src/**/*.tsx"
+documents: "src/**/*.graphql"
 generates:
   src/gql/:
     preset: "client"
