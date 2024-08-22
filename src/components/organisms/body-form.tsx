@@ -1,17 +1,16 @@
 import {
-  FormControl,
   Grid,
   Input,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
+  Stack,
   TextField,
 } from '@mui/material';
 import { FormikErrors, FormikTouched } from 'formik/dist/types';
 import { InitValuesTicket } from './ticket-modal';
+import SelectUser from './select-users';
+import SelectEstimate from './select-estimate';
+import SelectLabels from './select-labels';
 
-interface BodyFormPersonProps {
+interface BodyFormProps {
   values: InitValuesTicket;
   errors: FormikErrors<InitValuesTicket>;
   touched: FormikTouched<InitValuesTicket>;
@@ -22,25 +21,9 @@ interface BodyFormPersonProps {
     ): T extends React.ChangeEvent<string> ? void : (e: string | React.ChangeEvent<string>) => void;
   };
 }
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-export const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-const estimates = [
-  { id: 1, name: '1' },
-  { id: 2, name: '2' },
-  { id: 3, name: '3' },
-  { id: 5, name: '5' },
-]
 
-export default function BodyForm({ values, errors, handleChange }: BodyFormPersonProps) {
-
+export default function BodyForm({ values, errors, handleChange }: BodyFormProps) {
+  console.log({ values},{ errors });
   return (
     <Grid item xl={12} justifyContent="center">
       <Input
@@ -49,49 +32,46 @@ export default function BodyForm({ values, errors, handleChange }: BodyFormPerso
         id="title"
         value={values.title}
         onChange={handleChange}
-        sx={{ width: '47%', m: 1 }}
+        sx={{ width: '30%', backgroundColor: 'whitesmoke' }}
         disableUnderline={true}
         placeholder="Task title"
         error={!!errors.title}
       />
       <div style={{ width: '100%' }} />
-      <FormControl sx={{ width: '47%', m: 1 }}>
-        <InputLabel id="demo-multiple-name-label">
-          {'estimate'}
-        </InputLabel>
-        <Select
-          required
-          name="estimate"
-          label={'estimate'}
-          placeholder={'estimate'}
+      <Stack
+        direction={'row'}
+        spacing={1}
+      > 
+        <SelectEstimate
           id="estimate"
-          value={values.estimate}
+          name="estimate"
+          value={values.estimate.toString()}
           onChange={handleChange}
-          input={<OutlinedInput label="estimate" />}
-          MenuProps={MenuProps}
-          //defaultValue={values.client_type}
-          error={!!errors.estimate}
-        >
-          {estimates?.map((item) => (
-            <MenuItem key={item.id} value={item.name}>
-              {item.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TextField
-        type='date'
-        required
-        name="due_date"
-        //label={"due_date"}
-        placeholder={"due_date"}
-        id="due_date"
-        sx={{ width: '47%', m: 1 }}
-        onChange={handleChange}
-        error={!!errors.due_date}
-        helperText={errors.due_date ?? ''}
-        value={values.due_date}
-      />
+        />
+        <SelectUser
+          id="assignee"
+          name="assignee"
+          value={values.assignee}
+          onChange={handleChange}
+        />
+        <SelectLabels
+          id="labels"
+          name="labels"
+          value={values.labels}
+          onChange={handleChange}
+        />
+        <TextField
+          type='date'
+          name="due_date"
+          placeholder={"due_date"}
+          id="due_date"
+          onChange={handleChange}
+          //error={!!errors.due_date}
+          helperText={errors.due_date ?? ''}
+          value={values.due_date}
+          variant='outlined'
+        />
+      </Stack>
     </Grid>
   );
 }

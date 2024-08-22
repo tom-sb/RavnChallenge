@@ -17,25 +17,45 @@ import LabelsInfo from '../../molecules/labels-info';
 import ReactionsInfo from '../../molecules/reactions-info';
 import { useState } from 'react';
 import OptionsCard from './options-card';
+import {
+	Task,
+	DeleteTaskDocument,
+	DeleteTaskMutationVariables,
+	DeleteTaskMutation,
+	GetTasksDocument,
+} from '../../../gql/graphql';
+import { useMutation } from '@apollo/client';
 
 interface CardTicketProps {
-	name: string;
-	labels: string[];
-	handleOpenModal: () => void;
+	ticket: Task;
+	handleOpenModal: (ticket:Task) => void;
 }
 
-export default function CardTicket( { name, labels, handleOpenModal }: CardTicketProps ) {
+export default function CardTicket( { ticket, handleOpenModal }: CardTicketProps ) {
 	const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+
+	const [deleteTask] = useMutation<DeleteTaskMutation, DeleteTaskMutationVariables>(DeleteTaskDocument, {
+		variables: {
+			input: {
+				id: ticket.id
+			}
+		},
+		refetchQueries: [GetTasksDocument]
+	});
+	
+
   const open = Boolean(anchor);
   const id = open ? 'simple-popover' : undefined;
   const handleAnchorClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchor(event.currentTarget);
   };
 	const handleDelete = () => {
+		console.log({ticket});
+		deleteTask();
 		setAnchor(null);
 	}
 	const handleEdit = () => {
-		handleOpenModal();
+		handleOpenModal(ticket);
 		setAnchor(null);
 	}
 	return (
@@ -43,7 +63,7 @@ export default function CardTicket( { name, labels, handleOpenModal }: CardTicke
 			<Card sx={{ border: 'solid 2px #D9DADD' }}>
 				<CardHeader
 				title={
-					<Typography variant='body1' sx={{justifySelf: 'start'}}>{name}</Typography>
+					<Typography variant='h4' sx={{justifySelf: 'start'}}>{ticket.name}</Typography>
 				}
 				action={
 					<IconButton onClick={handleAnchorClick}>
@@ -56,9 +76,12 @@ export default function CardTicket( { name, labels, handleOpenModal }: CardTicke
 				sx={{ display: 'flex', justifyContent: 'space-between', pt: 0, paddingInline: 2 }}
 				>
 				<Stack direction={'column'} gap={1} sx={{ width: '100%' }}>
-					<ScheduleInfo />
-					<LabelsInfo labels={labels} />
-					<ReactionsInfo />
+					<ScheduleInfo
+						position={ticket.position}
+						dueDate={ticket.dueDate}
+					/>
+					<LabelsInfo labels={ticket.tags} />
+					<ReactionsInfo creator={ticket.assignee!}/>
 				</Stack>
 				</CardActions>
 			</Card>

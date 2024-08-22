@@ -2,8 +2,12 @@ import { Avatar, IconButton, Stack, Typography } from "@mui/material";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import { User } from "../../gql/graphql";
 
-export default function ReactionsInfo() {
+interface ReactionsInfoProps {
+  creator: User;
+}
+export default function ReactionsInfo( { creator }: ReactionsInfoProps ) {
   return (
     <Stack
         direction="row"
@@ -12,7 +16,7 @@ export default function ReactionsInfo() {
         sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
     >
         <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
-            R
+            {creator.fullName.charAt(0)}
         </Avatar>
         <Stack direction="row" gap={0}>
           <IconButton aria-label="share">

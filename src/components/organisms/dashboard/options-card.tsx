@@ -10,7 +10,7 @@ interface OptionsCardProps {
 export default function OptionsCard({handleDelete, handleEdit}: OptionsCardProps) {
   
   return (
-    <Box sx={{backgroundColor:'red'}}>
+    <Box >
       <MenuItem key={'disabled-option'} onClick={handleDelete}>
         <DeleteOutlineOutlinedIcon />
         <Typography variant="body1">Eliminar</Typography>

@@ -6,26 +6,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/constants-routes";
 import { useState } from "react";
 
-
-import { GetProfileDocument, GetProfileQuery, GetProfileQueryVariables } from "../../gql/graphql";
-import { useQuery } from "@apollo/client";
-
-/* import { GetAlbumsTestQuery, GetAlbumsTestDocument, GetAlbumsTestQueryVariables } from './gql/graphql'
-
-const { data, loading } = useQuery<GetAlbumsTestQuery, GetAlbumsTestQueryVariables>(GetAlbumsTestDocument, {
-    variables: {}
-  }) */
-
 interface IToolsDashboard {
   handleCreate: () => void;
 }
 
 export default function ToolsDashboard({handleCreate}: IToolsDashboard) {
-
-
-  const { data, loading } = useQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument);
-  console.log('-----------<<<>>>>',data, loading);
-
   const navigate = useNavigate();
   const location = useLocation();
   const [locationTask, setLocationTask] = useState(location.pathname === ROUTES.TASK);

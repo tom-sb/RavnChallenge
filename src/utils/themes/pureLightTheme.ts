@@ -1,4 +1,5 @@
 import { alpha, createTheme, lighten, darken } from '@mui/material';
+import { light } from '@mui/material/styles/createPalette';
 //import '@mui/lab/themeAugmentation'
 
 const themeColors = {
@@ -12,6 +13,7 @@ const themeColors = {
   white: '#ffffff',
   primaryAlt: '#000C57',
   gray: '#011936',
+  transpGreen: '#70B2521A',
 };
 
 const colors = {
@@ -111,6 +113,14 @@ const colors = {
       70: alpha(themeColors.secondary, 0.7),
       100: themeColors.secondary,
     },
+    transpGreen: {
+      5: alpha(themeColors.transpGreen, 0.02),
+      10: alpha(themeColors.transpGreen, 0.1),
+      30: alpha(themeColors.transpGreen, 0.3),
+      50: alpha(themeColors.transpGreen, 0.5),
+      70: alpha(themeColors.transpGreen, 0.7),
+      100: themeColors.transpGreen,
+    },
   },
   secondary: {
     lighter: lighten(themeColors.secondary, 0.85),
@@ -148,6 +158,12 @@ const colors = {
     main: themeColors.info,
     dark: darken(themeColors.info, 0.2),
   },
+  transpGreen: {
+    lighter: lighten(themeColors.transpGreen, 0.85),
+    light: lighten(themeColors.transpGreen, 0.3),
+    main: themeColors.transpGreen,
+    dark: darken(themeColors.transpGreen, 0.2),
+  }
 };
 
 export const PureLightTheme = createTheme({

@@ -4,9 +4,20 @@ import SearchComponent from "../../components/molecules/search-bar";
 import { useState } from "react";
 import TicketModal from "../../components/organisms/ticket-modal";
 import ToolsDashboard from "../../components/molecules/tools-dashboard";
+import { Status, Task } from "../../gql/graphql";
 
 export default function Dashboard() {
+	const statusValues = Status;
 	const [open, setOpen] = useState(false);
+	const [edit, setEdit] = useState<Task>();
+	const handlerEdit = (ticket:Task) => {
+		setEdit(ticket);
+		setOpen(true);
+	}
+	const handlerCreate = () => {
+		setEdit(undefined);
+		setOpen(true);
+	}
   return (
 		<>
 			<Stack
@@ -14,35 +25,30 @@ export default function Dashboard() {
 					gap={2}
 			>
 				<SearchComponent onSearch={() => console.log('search handles todo')} />
-				<ToolsDashboard handleCreate={() => setOpen(true)}/> 
+				<ToolsDashboard handleCreate={handlerCreate}/> 
 				<Stack
 					direction="row"
 					gap={2}
 				>
 					<StateColumn
-							state='Backlog'
-							tickets={['Ticket 1', 'Ticket 2']}
-							handleOpenModal={() => setOpen(true)}
+							status={statusValues.Backlog}
+							handleOpenModal={handlerEdit}
 					/> 
 					<StateColumn
-							state='Cancelled'
-							tickets={['Ticket 1', 'Ticket 2']}
-							handleOpenModal={() => setOpen(true)}
+							status={statusValues.Cancelled}
+							handleOpenModal={handlerEdit}
 					/>        
 					<StateColumn
-							state='To Do'
-							tickets={['Ticket 1', 'Ticket 2']}
-							handleOpenModal={() => setOpen(true)}
+							status={statusValues.Todo}
+							handleOpenModal={handlerEdit}
 					/>
 					<StateColumn
-							state='In Progress'
-							tickets={['Ticket 3', 'Ticket 4']}
-							handleOpenModal={() => setOpen(true)}
+							status={statusValues.InProgress}
+							handleOpenModal={handlerEdit}
 					/>
 					<StateColumn
-							state='Done'
-							tickets={['Ticket 5', 'Ticket 6']}
-							handleOpenModal={() => setOpen(true)}
+							status={statusValues.Done}
+							handleOpenModal={handlerEdit}
 					/>
 				</Stack>
 			</Stack>
@@ -54,7 +60,7 @@ export default function Dashboard() {
       >
         <Container
           sx={{
-            width: '50%',
+            width: 'auto',
             backgroundColor: 'white',
             position: 'absolute',
             top: '50%',
@@ -65,7 +71,7 @@ export default function Dashboard() {
         >
           <TicketModal
 						cancelClick={() => setOpen(false)}
-						toEdit={false}
+						toEdit={edit}
 					/>
         </Container>
       </Modal>

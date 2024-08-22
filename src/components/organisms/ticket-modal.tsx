@@ -1,71 +1,121 @@
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
-import { object, string } from "yup";
+import { array, number, object, string } from "yup";
 import BodyForm from "./body-form";
-
+import {
+  Task,
+  UpdateTaskDocument,
+  UpdateTaskMutation,
+  UpdateTaskMutationVariables,
+  GetTasksDocument,
+  CreateTaskDocument,
+	CreateTaskMutationVariables,
+	CreateTaskMutation,
+	PointEstimate,
+  Status,
+  TaskTag,
+  User,
+ } from "../../gql/graphql";
+import { useMutation } from "@apollo/client";
 export interface InitValuesTicket {
   title: string;
-  estimate: string;
+  estimate: number;
   assignee: string;
-  labels: string;
+  labels: TaskTag[];
   due_date: string;
 }
 
 interface TicketModalProps {
   cancelClick: () => void;
-  toEdit?: boolean;
+  toEdit?: Task;
 }
 
 export default function TicketModal( { cancelClick, toEdit }: TicketModalProps ) {
   const [initialValues] = useState<InitValuesTicket>(
     toEdit
       ? {
-        title: '',
-        estimate: '',
-        assignee: '',
-        labels: '',
-        due_date: '',
+          title: toEdit.name,
+          estimate: toEdit.position,
+          assignee: toEdit.assignee?.id || '',
+          labels: toEdit.tags,
+          due_date: toEdit.dueDate || '',
         }
       : {
           title: '',
-          estimate: '',
+          estimate: 0,
           assignee: '',
-          labels: '',
+          labels: [],
           due_date: '',
         },
   );
 
+  const [updateTicket] = useMutation<UpdateTaskMutation, UpdateTaskMutationVariables>(UpdateTaskDocument, {
+    refetchQueries: [GetTasksDocument]
+  });
+  const [createTask] = useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CreateTaskDocument, {
+		variables: {
+			input: {
+				name: initialValues.title,
+				pointEstimate: "TWO" as PointEstimate,
+				dueDate: initialValues.due_date,
+				tags: [],
+				status: "TODO" as any,
+				assigneeId: initialValues.assignee,
+			}
+		},
+		refetchQueries: [GetTasksDocument]
+	});
   const validationSchema = object({
     title: string().required('title required'),
-    estimate: string().required('title required'),
-    assignee: string().required('name_required'),
-    labels: string().required('address_required'),
+    estimate: number(),
+    assignee: string(),
+    labels: array(),
     due_date: string(),
   });
 
   const handleSubmit = async (values: InitValuesTicket) => {
-    const input = {//TODO crear el tipo y quitar el any
+    const input = {
       title: values.title,
       estimate: values.estimate,
       assignee: values.assignee,
       labels: values.labels,
       due_date: values.due_date,
     };
-    console.log(input);
-    /* try {
+    try {
       if (toEdit) {
-        //TODO update ticket
+        updateTicket({
+          variables: {
+            input: {
+              id: toEdit.id,
+              name: input.title,
+              pointEstimate: "FOUR" as PointEstimate,
+              dueDate: input.due_date,
+              tags: input.labels,
+              status: toEdit.status,
+              assigneeId: input.assignee,
+            },
+          },
+        });
         cancelClick();
       } else {
-        const responseClient = await createTicket(input);
+        const responseClient = await createTask({ variables: {
+          input: {
+            name: input.title,
+            pointEstimate: "TWO" as PointEstimate,
+            dueDate: input.due_date,
+            tags: input.labels,
+            status: Status.Backlog,
+            assigneeId: input.assignee,
+          }
+        } });
         if (responseClient) {
           cancelClick();
         }
       }
     } catch (error) {
       console.error(error);
-    } */
+    }
   };
   
   return (
@@ -77,7 +127,7 @@ export default function TicketModal( { cancelClick, toEdit }: TicketModalProps )
     >
       {({ values, errors, touched, handleChange, isValid, dirty }) => (
         <Form>
-          <Grid container xl={12} justifyContent="center" sx={{ ml: 2 }}>
+          <Grid container xl={12} justifyContent="flex-end" sx={{ pt:1 }}>
             <BodyForm
               values={values}
               errors={errors}
@@ -85,28 +135,26 @@ export default function TicketModal( { cancelClick, toEdit }: TicketModalProps )
               handleChange={handleChange}
             />
           </Grid>
-          <Grid container xl={12} justifyContent={'end'} sx={{ mb: 2, mt: 2 }}>
-            <Stack direction={'row'} gap={2}>
+          <Grid container xl={12} justifyContent="flex-end" sx={{ py:2 }}>
+            <Stack direction={'row'} gap={1}>
               <Button
                 type="button"
                 size="large"
-                sx={{ mr: 1 }}
                 variant="contained"
-                disabled={!(isValid && dirty)}
+                //disabled={!(isValid && dirty)}
                 onClick={cancelClick}
               >
-                <Typography variant="button" sx={{ mr: 1 }}>
+                <Typography variant="button" >
                   {'cancel' }
                 </Typography>
               </Button>
               <Button
                 type="submit"
                 size="large"
-                sx={{ mr: 1 }}
                 variant="contained"
-                disabled={!(isValid && dirty)}
+                //disabled={!(isValid && dirty)}
               >
-                <Typography variant="button" sx={{ mr: 1 }}>
+                <Typography variant="button" >
                   {toEdit ? 'Update' : 'Create' }
                 </Typography>
               </Button>

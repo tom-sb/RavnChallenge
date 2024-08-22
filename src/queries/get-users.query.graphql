@@ -1,5 +1,5 @@
-query GetProfile {
-    profile {
+query GetUsers {
+    users {
         avatar
         createdAt
         email

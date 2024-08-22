@@ -1,22 +1,23 @@
-import { Stack, Typography } from '@mui/material';
-import { Label } from '@mui/icons-material';
+import { Chip, Stack, Typography } from '@mui/material';
 
 interface LabelsInfoProps {
-    labels: string[];
+  labels: string[];
 }
 
 export default function LabelsInfo( { labels }: LabelsInfoProps ) {
   return (
     <Stack
-        direction="row"
-        gap={1}
-        alignItems="center"
+			direction="row"
+			gap={1}
+			alignItems="center"
     >
-        {labels.map((label, index) => (
-            <Label key={index}>
-                <Typography>{label}</Typography>
-            </Label>
-        ))}
+			{labels.map((label) => (
+				<Chip
+					key={label}
+					label={<Typography color={"green"} variant='h5'>{label}</Typography>}
+					sx={{backgroundColor: "lightgreen"}}
+				/>
+			))}
     </Stack>
   );
 }
