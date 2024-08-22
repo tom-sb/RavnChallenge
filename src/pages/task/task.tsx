@@ -44,7 +44,7 @@ export default function Task() {
       >
         <Container
           sx={{
-            width: '50%',
+            width: 'auto',
             backgroundColor: 'white',
             position: 'absolute',
             top: '50%',
@@ -55,7 +55,6 @@ export default function Task() {
         >
           <TicketModal
 						cancelClick={() => setOpen(false)}
-						toEdit={false}
 					/>
         </Container>
       </Modal>

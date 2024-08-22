@@ -1,7 +1,9 @@
-import { Avatar, FormControl, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Avatar, CircularProgress, FormControl, IconButton, InputAdornment, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { useState } from 'react';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import { GetProfileDocument, GetProfileQuery, GetProfileQueryVariables } from '../../gql/graphql';
+import { useQuery } from '@apollo/client';
 
 interface SearchProps {
   value?: string;
@@ -10,6 +12,8 @@ interface SearchProps {
 }
 
 const SearchComponent = ({ value, onSearch, w }: SearchProps) => {
+  const { data, loading } = useQuery<GetProfileQuery, GetProfileQueryVariables>(GetProfileDocument);
+  const profile = data?.profile;
   const [search, setSearch] = useState(value || '');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +47,7 @@ const SearchComponent = ({ value, onSearch, w }: SearchProps) => {
                   <NotificationsOutlinedIcon/>
                 </IconButton>
                 <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
-                  R
+                  {loading?<CircularProgress color="inherit" />: profile?.fullName.charAt(0)}
                 </Avatar>
               </InputAdornment>
             </>

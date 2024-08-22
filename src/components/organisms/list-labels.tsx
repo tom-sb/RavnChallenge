@@ -12,7 +12,7 @@ export default function ListLabels({handleSelected, tags}: ListLabelsProps) {
   const labels = Object.values(TaskTag);
   const [selectedTags, setSelectedTags] = useState<TaskTag[]>(tags);
   const handleSelectedTags = (tag:TaskTag) => {
-    if(!!selectedTags.find(item => item===tag)){
+    if(selectedTags.find(item => item===tag)){
       setSelectedTags(selectedTags.filter(item => item!==tag));
       handleSelected(selectedTags.filter(item => item!==tag));
     } else {

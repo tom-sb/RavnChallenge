@@ -23,7 +23,6 @@ interface BodyFormProps {
 }
 
 export default function BodyForm({ values, errors, handleChange }: BodyFormProps) {
-  console.log({ values},{ errors });
   return (
     <Grid item xl={12} justifyContent="center">
       <Input
@@ -66,7 +65,6 @@ export default function BodyForm({ values, errors, handleChange }: BodyFormProps
           placeholder={"due_date"}
           id="due_date"
           onChange={handleChange}
-          //error={!!errors.due_date}
           helperText={errors.due_date ?? ''}
           value={values.due_date}
           variant='outlined'

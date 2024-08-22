@@ -15,7 +15,6 @@ import {
 	PointEstimate,
   Status,
   TaskTag,
-  User,
  } from "../../gql/graphql";
 import { useMutation } from "@apollo/client";
 export interface InitValuesTicket {
@@ -125,7 +124,7 @@ export default function TicketModal( { cancelClick, toEdit }: TicketModalProps )
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ values, errors, touched, handleChange, isValid, dirty }) => (
+      {({ values, errors, touched, handleChange }) => (
         <Form>
           <Grid container xl={12} justifyContent="flex-end" sx={{ pt:1 }}>
             <BodyForm

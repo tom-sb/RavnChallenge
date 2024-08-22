@@ -9,8 +9,6 @@ import {
 	Stack,
 	Typography,
   } from '@mui/material';
-//import { useIntl } from 'react-intl';
-//import InputAdornment from '@mui/material/InputAdornment';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ScheduleInfo from '../../molecules/schedule-info';
 import LabelsInfo from '../../molecules/labels-info';
@@ -50,7 +48,6 @@ export default function CardTicket( { ticket, handleOpenModal }: CardTicketProps
     setAnchor(event.currentTarget);
   };
 	const handleDelete = () => {
-		console.log({ticket});
 		deleteTask();
 		setAnchor(null);
 	}
