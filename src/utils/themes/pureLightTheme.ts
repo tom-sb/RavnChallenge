@@ -341,7 +341,7 @@ export const PureLightTheme = createTheme({
       disabled: colors.alpha.black[50],
     },
     background: {
-      paper: colors.alpha.black[100],
+      paper: colors.alpha.white[100],
       default: colors.layout.general.bodyBg,
     },
     action: {
