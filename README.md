@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Challenge 
+# Instrucciones
+## Create project
+  - install node, project use 20.12.0 but you ca use 18+ version.
+  ### Create project whit Vite:
+  - npm create vite nombre-proyecto --template
+  - next choose react and typescript options
+  ### Install apollo graphql
+  - npm install @apollo/client graphql
+  - npm install -D @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo
 
-Currently, two official plugins are available:
+## configurar apollo graphql
+  - crear el file apollo-client.ts  y agregar esta configuracion:
+```ts
+// apollo-client.ts
+const client = new ApolloClient({
+  uri: 'https://your-graphql-endpoint.com/graphql', // Reemplaza con tu endpoint GraphQL
+  cache: new InMemoryCache(),
+});
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-## Expanding the ESLint configuration
+const url: string = String(import.meta.env.VITE_GQL_URL);
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+const client = new ApolloClient({
+  uri: url,
+  cache: new InMemoryCache(),
+});
 
-- Configure the top-level `parserOptions` property like this:
+export default client;
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
 ```
+- finally run:
+- npx graphql-codegen init
+# Description
+El proyecto se trata de una manejador de tareas con dos vistas Dashboard y Task.
+Se usan listas de cards, cada lista es un status y los card puedes moverse atraves de estas listas.
+La gestion de datos se hace con Graphql, es necesario construir queries y mutations estas estan en sus respectivos directorios.
+### Why Vite?
+- Vite is faster startup times than other tools like Webpack, focus on on-demand compilation, use of native ESModules and provides real-time reloading.
+### Why Apollo Graphql?
+- Because it simplifies data management in frontend applications by enabling efficient queries and mutations, and Apollo optimizes network requests through cache management, and offers advanced tools for global state management.
+### Why MaterialUI?
+- Because it offers pre-built and customizable UI components and it has excellent documentation making it easy to integrate and use.
+### Libraries used
+## Visit the site:
+[https://ravn-challenge.vercel.app/](https://ravn-challenge.vercel.app/)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
