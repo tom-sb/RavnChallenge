@@ -33,6 +33,7 @@ export default client;
 ```
 - finally run:
 - npx graphql-codegen init
+  ###Note: Every time you create a query, mutation or subscrption run line above.
 # Description
 El proyecto se trata de una manejador de tareas con dos vistas Dashboard y Task.
 Se usan listas de cards, cada lista es un status y los card puedes moverse atraves de estas listas.
@@ -43,7 +44,10 @@ La gestion de datos se hace con Graphql, es necesario construir queries y mutati
 - Because it simplifies data management in frontend applications by enabling efficient queries and mutations, and Apollo optimizes network requests through cache management, and offers advanced tools for global state management.
 ### Why MaterialUI?
 - Because it offers pre-built and customizable UI components and it has excellent documentation making it easy to integrate and use.
-### Libraries used
+### Other Libraries used
+-material ui and icons-material
+- formik and yup
+- react-beautiful-dnd
 ## Visit the site:
 [https://ravn-challenge.vercel.app/](https://ravn-challenge.vercel.app/)
 
