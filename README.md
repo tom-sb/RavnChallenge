@@ -34,6 +34,9 @@ export default client;
 - finally run:
 - npx graphql-codegen init
   ###Note: Every time you create a query, mutation or subscrption run line above.
+
+  ## Run the project
+  - npm run dev
 # Description
 El proyecto se trata de una manejador de tareas con dos vistas Dashboard y Task.
 Se usan listas de cards, cada lista es un status y los card puedes moverse atraves de estas listas.
