@@ -41,6 +41,14 @@ export default client;
 El proyecto se trata de una manejador de tareas con dos vistas Dashboard y Task.
 Se usan listas de cards, cada lista es un status y los card puedes moverse atraves de estas listas.
 La gestion de datos se hace con Graphql, es necesario construir queries y mutations estas estan en sus respectivos directorios.
+### Drag and Drop
+![ezgif com-animated-gif-maker](https://github.com/user-attachments/assets/c7e48abf-ecc5-4b39-8fd2-c670358887b2)
+### Create Task
+![ezgif com-animated-gif-maker (2)](https://github.com/user-attachments/assets/3936618c-f3b4-4926-9a83-7b1802875a7d)
+
+### Edit Task
+![ezgif com-animated-gif-maker (1)](https://github.com/user-attachments/assets/4fac4c79-e615-4768-b8bd-6e1b1ecda590)
+
 ### Why Vite?
 - Vite is faster startup times than other tools like Webpack, focus on on-demand compilation, use of native ESModules and provides real-time reloading.
 ### Why Apollo Graphql?
